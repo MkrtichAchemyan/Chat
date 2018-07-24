@@ -543,6 +543,7 @@ app.post("/changeAvatar", checkAuth, (req, res) => {
           }
       })
 
+
   Users.findByIdAndUpdate(req.userData["user_id"], {avatar: newAvatar}, {new: true},function (err, user) {
     if (err) {
       console.log(err);
