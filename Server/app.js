@@ -555,7 +555,6 @@ app.post("/changeAvatar", checkAuth, (req, res) => {
       user: user
     })
   })
-
 })
 
 server.listen(8000, function () {
