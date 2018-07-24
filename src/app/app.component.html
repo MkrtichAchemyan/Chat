@@ -1,0 +1,16 @@
+<nav class="navbar navbar-dark bg-dark " style="font-size: 20px; padding: 0 150px 0 40px">
+  <div class="navbar nav navbar-nav navbar-left navbar-brand" >
+    <a class="nav-link" routerLink="/" routerLinkActive="active">
+      <img src="../assets/img/chat.png" alt="" width="100" height="50">
+    </a>
+  </div>
+  <ul class="nav nav-pills justify-content-end">
+    <li class="nav-item" >
+      <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Registration</a>
+    </li>
+    <li class="nav-item" >
+      <a class="nav-link" routerLink="/chat" routerLinkActive="active">Chat</a>
+    </li>
+  </ul>
+</nav>
+<router-outlet></router-outlet>

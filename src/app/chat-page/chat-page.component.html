@@ -1,0 +1,195 @@
+<div class="container" style="background-color: #1c21ab; margin-top: 50px; margin-bottom: 50px; border-radius: 8px; ">
+  <div class="row">
+    <div class="col-4" style="background-color: #1751ab; padding-top: 20px; border-radius: 8px;">
+      <div class="container" *ngFor="let usser of User">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-12 col-sm-12 avatar">
+            <label for="inputId" >
+              <div class="avatarHover" style="border-radius: 50%;cursor: pointer; background-color: black; width: 80px; height: 80px; position: absolute; opacity: 0; color: white;font-size: 40px; font-weight: bold; text-align: center;">
+                <i class="fa fa-camera" style="margin-top: 20px"></i>
+              </div>
+              <img src="http://localhost:3000/{{usser.avatar}}" alt="" width="80" height="80"
+                   style="border: solid black; border-radius: 50%;cursor: pointer">
+            </label>
+              <input type="file" id="inputId" style="display: none"  (change)="onSave($event)" accept="image/jpeg">
+          </div>
+
+          <div class="col-lg-7 col-md-12 col-sm-12 p-4">
+            <h4 style="color: white">{{usser.fullname}}</h4>
+          </div>
+          <div class="col-lg-1 col-md-12 col-sm-12 ">
+            <button class="btn btn-danger" (click)="logOut()"><i class="fas fa-sign-out-alt"></i></button>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="col-12 bg-light" style="border-radius: 8px; padding: 20px 0 20px 0">
+        <ul style="list-style: none; display: flex; padding: 0; margin: 0">
+          <li class="col-10" style="padding: 0 0 0 15px"><input type="text" class="form-control" placeholder="Search">
+          </li>
+          <li class="col-1" style="padding: 0">
+            <button class="btn" style="color: white; background-color: #1c21ab"><i class="fas fa-search"></i></button>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 userlist" style="overflow-y: scroll; height: 500px;">
+        <ul style="padding: 0 !important;">
+          <li *ngFor="let user of Users;let ind = index" style="list-style: none">
+            <button *ngIf="user._id!==User[0]._id;else non" class="col-md-12 btn"
+                    style=" margin-top: 20px; padding: 5px 30px 5px 60px; width: 100% ;text-align: center; background-color: #1c21ab; color: white">
+              <div *ngIf="user.online==false; else on">
+                <img src="http://localhost:3000/{{user.avatar}}" alt="" width="40" height="40"
+                     style="border: solid red; border-radius: 50%; float: left " id="{{user._id}}">
+              </div>
+              <ng-template #on>
+                <div>
+                  <img src="http://localhost:3000/{{user.avatar}}" alt="" width="40" height="40"
+                       style="border: solid green; border-radius: 50%; float: left " id="{{user._id}}">
+                </div>
+              </ng-template>
+              <div>
+                <h5>{{user.fullname}}</h5>
+              </div>
+            </button>
+            <ng-template #non>
+              <button class="col-md-12 btn"
+                      style=" margin-top: 20px; padding: 5px 30px 5px 60px; width: 100% ;text-align: center; background-color: #1c21ab; color: white; display: none" >
+                <div *ngIf="user.online==false; else on">
+                  <img src="http://localhost:3000/{{user.avatar}}" alt="" width="40" height="40"
+                       style="border: solid red; border-radius: 50%; float: left " id="{{user._id}}">
+                </div>
+                <ng-template #on>
+                  <div>
+                    <img src="http://localhost:3000/{{user.avatar}}" alt="" width="40" height="40"
+                         style="border: solid green; border-radius: 50%; float: left " id="{{user._id}}">
+                  </div>
+                </ng-template>
+                <div>
+                  <h5>{{user.fullname}}</h5>
+                </div>
+              </button>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-8 p-4">
+      <div class="container bg-light p-0" style="height: 580px;border-radius: 8px">
+        <ul style="overflow-y: scroll; height: 580px; " class="col-12" id="UserL" #UserL
+
+            scroll-directive>
+          <img src="../../assets/img/loading.gif" alt="" width="50" height="50" class="loading" id="loading">
+
+          <li class="col-12 p-0 m-0" style="list-style: none" *ngFor="let item of Message">
+            <div class='container' #{{item.uniqueId}} *ngIf='User[0]._id===item.from; else hhh'
+                 id="aaa{{item.uniqueId}}">
+              <div class="row"
+                   style="display: flex; justify-content: flex-end; align-items: center; padding-right: 20px; margin: 20px 0; right: 0">
+                <span
+                  style="background-color: #19ac4b; color: white; border-radius: 8px; margin-right: 10px; padding: 5px">
+                  <div style="float: right; overflow-wrap: break-word !important">{{item.message}}</div>
+                  <br>
+                  <div style="float: right"><small>{{item.data}}</small></div>
+                </span>
+                <div>
+                  <img style="border-radius: 50%;cursor: pointer" width="40" height="40"
+                       src="http://localhost:3000/{{item.avatar}}"/>
+                </div>
+              </div>
+            </div>
+            <ng-template #hhh>
+              <div class="container" style="left: 0">
+                <div class="row"
+                     style="display: flex; justify-content: flex-start; align-items: center; padding-left: 20px; margin: 20px 0">
+                  <div>
+                    <img style="border-radius: 50%;cursor: pointer" width="40" height="40"
+                         src="http://localhost:3000/{{item.avatar}}"/>
+                  </div>
+                  <span
+                    style="background-color: #6219ac; color: white; border-radius: 8px; margin-left: 10px; padding: 5px">
+                  <div style="float: left; overflow-wrap: break-word !important">{{item.message}}</div>
+                  <br>
+                  <div style="float: left"><small>{{item.data}}</small></div>
+                </span>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+      <br>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="container">
+            <div class="row">
+              <div class="col-1">
+                <div ngbDropdown class="d-inline-block" placement="top-left">
+                  <button class="btn btn-xs btn-primary" id="dropdownConfig" ngbDropdownToggle><i class="far fa-smile"
+                                                                                                  style="font-size: 25px; color: blue;background-color: orange; border-radius: 50%"></i>
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownConfig" style="width: 280px">
+                    <ngb-tabset>
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span style="font-size: 20px; color: darkorange;"><i
+                          class="far fa-smile"></i></span></ng-template>
+                        <ng-template ngbTabContent>
+                          <span style="font-size: 20px; cursor: pointer" (click)="take($event)"
+                                *ngFor="let smile of smiles">{{smile}}</span>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span style="font-size: 20px; color: rebeccapurple"><i
+                          class="fas fa-crow"></i></span></ng-template>
+                        <ng-template ngbTabContent>
+                          <span style="font-size: 20px; cursor: pointer" (click)="take($event)"
+                                *ngFor="let animal of animals">{{animal}}</span>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span style="font-size: 20px; color: forestgreen"><i
+                          class="fas fa-utensils"></i></span></ng-template>
+                        <ng-template ngbTabContent>
+                          <span style="font-size: 20px; cursor: pointer" (click)="take($event)"
+                                *ngFor="let food of foods">{{food}}</span></ng-template>
+                      </ngb-tab>
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span style="font-size: 20px; color: brown"><i
+                          class="fas fa-graduation-cap"></i></span></ng-template>
+                        <ng-template ngbTabContent>
+                          <span style="font-size: 20px; cursor: pointer" (click)="take($event)"
+                                *ngFor="let people of proffesion">{{people}}</span>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><span style="font-size: 20px; color: dodgerblue"><i
+                          class="fas fa-futbol"></i></span></ng-template>
+                        <ng-template ngbTabContent>
+                          <span style="font-size: 20px; cursor: pointer" (click)="take($event)"
+                                *ngFor="let sport of sports">{{sport}}</span>
+                        </ng-template>
+                      </ngb-tab>
+                    </ngb-tabset>
+                  </div>
+                </div>
+              </div>
+              <form role="form" #userForm="ngForm" (ngSubmit)="send()" class="registration-form col-11"
+                    enctype="multipart/form-data" style="display: flex">
+                <div class="form-group col-10" style="margin-right: 0px !important;">
+                  <input type="text" name="massege" placeholder="Enter your massege..." class=" form-control massege "
+                         id="massege" required [(ngModel)]="message">
+                </div>
+                <div class="col-2" style="margin-right: 0px !important;">
+                  <button type="submit" class="btn btn-primary"><i class="fab fa-telegram-plane"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,22 @@
+#UserL::-webkit-scrollbar {
+  width: 5px;
+}
+
+#UserL::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+#UserL::-webkit-scrollbar-thumb {
+  background: #19ac4b;
+  border-radius: 10px;
+}
+.avatarHover:hover{
+  opacity: 0.5 !important;
+  transition: 0.7s;
+}
+.loading{
+  visibility: hidden;
+  margin-top: 25px;
+}
+

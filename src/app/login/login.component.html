@@ -1,0 +1,58 @@
+<!-- Top content -->
+<div class="top-content">
+
+  <div class="inner-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 m-auto">
+
+          <div class="form-box">
+            <div class="form-top">
+              <div class="form-top-left">
+                <h3>Login to Chat</h3>
+                <p>Enter username and password to log on:</p>
+              </div>
+              <div class="form-top-right">
+                <i class="fa fa-lock"></i>
+              </div>
+            </div>
+            <div class="form-bottom">
+              <form role="form"  #userForm="ngForm" method="post" class="login-form" (ngSubmit)="logIn($event,userForm.value)">
+                <div class="form-group">
+                  <label class="sr-only" for="form-email">Username</label>
+                  <input type="email" name="email" placeholder="Email..." class="form-email form-control" id="form-email" [(ngModel)]="email">
+                  <span class="err">{{emailSpan}}</span>
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="form-password">Password</label>
+                  <input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password" [(ngModel)]="password">
+                  <span class="err">{{passwordSpan}}</span>
+                </div>
+                <button type="submit" class="btn p-1" style="font-size: 25px">Sign in! <i class="fas fa-sign-in-alt" style="font-size: 25px"></i></button>
+                <span class="err">{{errorSpan}}</span>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+
+      <div class="col-sm-12 col-sm-offset-2">
+        <div class="footer-border"></div>
+        <p>Made by Mentor Groupe <a href="https://sixelit.com/" target="_blank"><strong>SIXELIT</strong></a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,9 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #888;
+  text-align: center;
+  background-image: url("assets/img/1.jpg") !important;
+  box-sizing: border-box !important;
+}
+
