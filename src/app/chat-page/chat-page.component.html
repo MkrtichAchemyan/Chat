@@ -1,6 +1,6 @@
-<div class="container" style="background-color: #1c21ab; margin-top: 50px; margin-bottom: 50px; border-radius: 8px; ">
+<div class="container" style="background-color: 	#3C4C5C; margin-top: 50px; margin-bottom: 50px; border-radius: 8px; ">
   <div class="row">
-    <div class="col-4" style="background-color: #1751ab; padding-top: 20px; border-radius: 8px;">
+    <div class="col-4" style="background-color: #223584; padding-top: 20px; border-radius: 8px;">
       <div class="container" *ngFor="let usser of User">
         <div class="row">
 
@@ -30,7 +30,7 @@
           <li class="col-10" style="padding: 0 0 0 15px"><input type="text" class="form-control" placeholder="Search">
           </li>
           <li class="col-1" style="padding: 0">
-            <button class="btn" style="color: white; background-color: #1c21ab"><i class="fas fa-search"></i></button>
+            <button class="btn" style="color: white; background-color: 	#3C4C5C;"><i class="fas fa-search"></i></button>
           </li>
         </ul>
       </div>
@@ -38,7 +38,7 @@
         <ul style="padding: 0 !important;">
           <li *ngFor="let user of Users;let ind = index" style="list-style: none">
             <button *ngIf="user._id!==User[0]._id;else non" class="col-md-12 btn"
-                    style=" margin-top: 20px; padding: 5px 30px 5px 60px; width: 100% ;text-align: center; background-color: #1c21ab; color: white">
+                    style=" margin-top: 20px; padding: 5px 30px 5px 60px; width: 100% ;text-align: center; background-color: 	#3C4C5C; color: white">
               <div *ngIf="user.online==false; else on">
                 <img src="http://localhost:3000/{{user.avatar}}" alt="" width="40" height="40"
                      style="border: solid red; border-radius: 50%; float: left " id="{{user._id}}">
@@ -55,7 +55,7 @@
             </button>
             <ng-template #non>
               <button class="col-md-12 btn"
-                      style=" margin-top: 20px; padding: 5px 30px 5px 60px; width: 100% ;text-align: center; background-color: #1c21ab; color: white; display: none" >
+                      style=" margin-top: 20px; padding: 5px 30px 5px 60px; width: 100% ;text-align: center; background-color: 	#3C4C5C; color: white; display: none" >
                 <div *ngIf="user.online==false; else on">
                   <img src="http://localhost:3000/{{user.avatar}}" alt="" width="40" height="40"
                        style="border: solid red; border-radius: 50%; float: left " id="{{user._id}}">
@@ -88,7 +88,7 @@
               <div class="row"
                    style="display: flex; justify-content: flex-end; align-items: center; padding-right: 20px; margin: 20px 0; right: 0">
                 <span
-                  style="background-color: #19ac4b; color: white; border-radius: 8px; margin-right: 10px; padding: 5px">
+                  style="background-color: #0593D1; color: white; border-radius: 8px; margin-right: 10px; padding: 5px">
                   <div style="float: right; overflow-wrap: break-word !important">{{item.message}}</div>
                   <br>
                   <div style="float: right"><small>{{item.data}}</small></div>
@@ -108,7 +108,7 @@
                          src="http://localhost:3000/{{item.avatar}}"/>
                   </div>
                   <span
-                    style="background-color: #6219ac; color: white; border-radius: 8px; margin-left: 10px; padding: 5px">
+                    style="background-color: 	#87C83A; color: white; border-radius: 8px; margin-left: 10px; padding: 5px">
                   <div style="float: left; overflow-wrap: break-word !important">{{item.message}}</div>
                   <br>
                   <div style="float: left"><small>{{item.data}}</small></div>
@@ -128,7 +128,7 @@
               <div class="col-1">
                 <div ngbDropdown class="d-inline-block" placement="top-left">
                   <button class="btn btn-xs btn-primary" id="dropdownConfig" ngbDropdownToggle><i class="far fa-smile"
-                                                                                                  style="font-size: 25px; color: blue;background-color: orange; border-radius: 50%"></i>
+                                                                                                  style="font-size: 25px; color: blue; background-color: orange; border-radius: 50%"></i>
                   </button>
                   <div ngbDropdownMenu aria-labelledby="dropdownConfig" style="width: 280px">
                     <ngb-tabset>

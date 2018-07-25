@@ -475,7 +475,7 @@ app.get("/chat", checkAuth, (req, res) => {
 
               })
               .catch((err) => {
-                res.json({
+                res.status(500).json({
                   error: err,
                 })
               })
@@ -526,31 +526,31 @@ app.post("/changeAvatar", checkAuth, (req, res) => {
     newAvatar = "images/chatIcon/userIcon.png"
   }
   else {
-      newAvatar = decode_base64(req.body.img);
-    }
-    Users.findOne({_id:req.userData["user_id"]})
-      .exec()
-      .then(user=>{
-        if (user.avatar !== "images/chatIcon/userIcon.png") {
-            console.log(user.avatar, "--------------++++++++++++++++++------------------------")
-            fs.unlink("public/" + user.avatar, function (err) {
-              if (err) throw err;
-              console.log('File deleted!');
-            })
-
-          } else {
-            console.log("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
-          }
+    newAvatar = decode_base64(req.body.img);
+  }
+  Users.findOne({_id: req.userData["user_id"]})
+    .exec()
+    .then(user => {
+      if (user.avatar !== "images/chatIcon/userIcon.png") {
+        console.log(user.avatar, "--------------++++++++++++++++++------------------------")
+        fs.unlink("public/" + user.avatar, function (err) {
+          if (err) throw err;
+          console.log('File deleted!');
+        })
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
       })
+    })
 
 
-  Users.findByIdAndUpdate(req.userData["user_id"], {avatar: newAvatar}, {new: true},function (err, user) {
+  Users.findByIdAndUpdate(req.userData["user_id"], {avatar: newAvatar}, {new: true}, function (err, user) {
     if (err) {
       console.log(err);
     }
-    console.log(user.avatar , "++++++++++++++++++++++++++++++++", )
     user.save();
-
     res.status(200).json({
       user: user
     })

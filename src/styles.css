@@ -3,7 +3,8 @@ body {
   font-size: 16px;
   color: #888;
   text-align: center;
-  background-image: url("assets/img/1.jpg") !important;
+  background-color:			#075EAD;
+  /*background-image: url("assets/img/1.jpg") !important;*/
   box-sizing: border-box !important;
 }
 
