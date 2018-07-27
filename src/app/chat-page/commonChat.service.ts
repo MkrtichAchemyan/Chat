@@ -11,7 +11,7 @@ export class CommonChatService {
   h = new HttpHeaders().set('authorization', this.token);
   private socket = io.connect("http://localhost:8000");
   GetData(){
-      return this.http.get('http://localhost:3000/chat', {headers: this.h})
+    return this.http.get('http://localhost:3000/chat', {headers: this.h})
   }
 
   changeAvatar(avatar){
@@ -56,17 +56,14 @@ export class CommonChatService {
     return this.socket.emit("userDisconnect", data)
   }
 
-  // destroy(user){
-  //   return this.http.post('http://localhost:3000/destroy', user)
-  // }
+  destroy(user){
+    return this.http.post('http://localhost:3000/destroy', user)
+  }
+
   scrolling(){
     return this.http.get('http://localhost:3000/loadNextMessages')
   }
-  // destroy(userId){
-  //   let observable = new Observable(observer => {
-  //     observer.next(this.http.post('http://localhost:3000/destroy', async(false), userId));
-  //   });
-  //   return observable
-  // }
+
+
 
 }

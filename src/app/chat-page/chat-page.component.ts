@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {NgbDropdownConfig, NgbTabsetConfig} from '@ng-bootstrap/ng-bootstrap';
 import {DOCUMENT} from '@angular/common';
 
-
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -12,7 +11,7 @@ import {DOCUMENT} from '@angular/common';
 })
 export class ChatPageComponent implements OnInit, AfterViewInit {
   @Inject(DOCUMENT) document;
-  @ViewChild('UserL') UserL: ElementRef;
+  @ViewChild('MessagesScroll') MessagesScroll: ElementRef;
   bool = true;
   Users;
   User = [];
@@ -60,11 +59,9 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
       this.Users = data["users"];
       this.User.push(data["user"]);
       this.Message = data["messages"];
-      console.log(this.Message)
       this.newService.userConnected({userId: this.User[0]._id});
-      console.log(this.Message.length)
       setTimeout(() => {
-        this.UserL.nativeElement.scrollTop = this.UserL.nativeElement.scrollHeight
+        this.MessagesScroll.nativeElement.scrollTop = this.MessagesScroll.nativeElement.scrollHeight
       }, 100)
 
     }, error => {
@@ -99,29 +96,25 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
         ext: file.type
       }).subscribe(data=>{
         this.User[0] = data["user"]
-        //console.log(this.User, "++++++++++++++++++++++++========================================")
-       // this.User.push(data["user"]);
         console.log(data, "-------------------//////////////**************++++++++++++++++--------------------")
       })
     })
   }
 
-  // @HostListener('window:beforeunload', ['$event'])
-  // beforeunloadHandler(event) {
-  //   const promise = new Promise((resolve, reject) => {
-  //     this.newService.destroy({userId: this.User[0]._id}).subscribe(data => {
-  //       resolve(data);
-  //     })
-  //   }).then((data) => {
-  //     this.router.navigate(['/chat'])
-  //     console.log(data)
-  //   })
-  //
-  // }
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event) {
+    const promise = new Promise((resolve, reject) => {
+      this.newService.destroy({userId: this.User[0]._id}).subscribe(data => {
+        resolve(data);
+      })
+    }).then((data) => {
+      this.router.navigate(['/chat'])
+      console.log(data)
+    })
+
+  }
 
   logOut() {
-    console.log("1111111111111111111111111");
-   //document.getElementById(this.User[0]._id).style.border = 'red'
     this.newService.userDisconected({userId: this.User[0]._id})
     console.log("222222222222222222222222222222")
     localStorage.removeItem("Authorization");
@@ -134,8 +127,9 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
     if (this.message === "") return;
     this.newService.sendMessage({message: this.message, user: this.User[0]._id, avatar: this.User[0].avatar});
     setTimeout(() => {
-      this.UserL.nativeElement.scrollTop = this.UserL.nativeElement.scrollHeight
-    }, 100)
+      console.log(this.MessagesScroll)
+      this.MessagesScroll.nativeElement.scrollTop = this.MessagesScroll.nativeElement.scrollHeight
+    }, 50)
     this.message = "";
   }
 
@@ -148,8 +142,8 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.UserL.nativeElement.scrollTop = this.UserL.nativeElement.scrollHeight
-    }, 100)
+      this.MessagesScroll.nativeElement.scrollTop = this.MessagesScroll.nativeElement.scrollHeight
+    }, 50)
   }
 
 }

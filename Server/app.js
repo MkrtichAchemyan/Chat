@@ -18,11 +18,11 @@ var io = require('socket.io').listen(server)
 
 mongoose.connect("mongodb://localhost:27017/Chat");
 
-app.use(express.static("public"))
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
+app.use(express.json({limit: "50mb"}));
+app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -50,7 +50,6 @@ var incr = function (ind) {
   }
 };
 
-
 Messages.find().sort({uniqueId: -1}).limit(1)
   .exec()
   .then((data) => {
@@ -62,35 +61,23 @@ Messages.find().sort({uniqueId: -1}).limit(1)
     }
   })
 
-
 io.on('connection', (socket) => {
   console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   socket.on('userConnected', (data) => {
-//    console.log(data, "ddddddddddddddddddddataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-
-    //console.log("userConnected")
     Users.findByIdAndUpdate(data.userId, {online: true}, {new: true}, function (err, user) {
       if (err) {
         console.log(err);
       }
-      user.save();
-      console.log(user, "truuuuuuuuuu+++++++++++++++++++++++++++++");
-
     });
     socket.broadcast.emit("setOnline", {userId: data.userId})
 
   })
 
   socket.on('userDisconnect', (data) => {
-    //  console.log(data, "dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     Users.findByIdAndUpdate(data.userId, {online: false}, {new: true}, function (err, user) {
       if (err) {
         console.log(err);
       }
-      user.save();
-
-      //   console.log(user, "falseeeeeeeeeee");
-
     });
     socket.broadcast.emit("setOffline", {userId: data.userId})
   });
@@ -98,12 +85,12 @@ io.on('connection', (socket) => {
   socket.on('disconnect', function () {
     app.post("/destroy", (req, res) => {
       //  console.log(req.body.userId);
-      //   console.log("oooooooooooooooooooooooooooooooooooo")
       var promise = new Promise((resolve, reject) => {
         Users.findByIdAndUpdate(req.body.userId, {online: false}, {new: true}, function (err, user) {
-          user.save();
+          //user.save();
           //  console.log(user, "falseeeeeeeeeee");
         });
+        socket.broadcast.emit("setOffline", {userId: req.body.userId})
         resolve("done");
       })
         .then((v) => {
@@ -142,15 +129,6 @@ io.on('connection', (socket) => {
     console.log(messages)
   })
 })
-
-
-// app.post("/destroy", (req, res)=>{
-//   console.log(req.body.userId);
-//   console.log("oooooooooooooooooooooooooooooooooooo")
-//   res.status(200).json({
-//     message: "ok"
-//   })
-// })
 
 function decode_base64(img) {
   var pattern = /image-*/;
@@ -557,6 +535,16 @@ app.post("/changeAvatar", checkAuth, (req, res) => {
   })
 })
 
+app.post("/searchUser", checkAuth, (req, res)=>{
+  Users.find({active: true, fullname:{ '$regex' : req.body.name, '$options' : 'i' }})
+    .exec()
+    .then(users=>{
+      res.status(200).json({
+        users:users
+      })
+    })
+})
+
 server.listen(8000, function () {
   console.log("socket run!!!")
 })
@@ -564,4 +552,3 @@ server.listen(8000, function () {
 app.listen(3000, function () {
   console.log("server run!!!");
 });
-

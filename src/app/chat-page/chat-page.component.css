@@ -1,13 +1,13 @@
-#UserL::-webkit-scrollbar {
+.userlist::-webkit-scrollbar {
   width: 5px;
 }
 
-#UserL::-webkit-scrollbar-track {
+.userlist::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
   border-radius: 10px;
 }
 
-#UserL::-webkit-scrollbar-thumb {
+.userlist::-webkit-scrollbar-thumb {
   background: #19ac4b;
   border-radius: 10px;
 }
