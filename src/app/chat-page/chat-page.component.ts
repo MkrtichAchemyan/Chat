@@ -157,6 +157,7 @@ export class ChatPageComponent implements OnInit, AfterViewInit {
     console.log(event)
   }
 
+
   ngAfterViewInit() {
     setTimeout(() => {
       this.MessagesScroll.nativeElement.scrollTop = this.MessagesScroll.nativeElement.scrollHeight;
