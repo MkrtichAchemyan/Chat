@@ -12,7 +12,7 @@
               <img src="http://localhost:3000/{{usser.avatar}}" alt="" width="80" height="80"
                    style="border: solid black; border-radius: 50%;cursor: pointer">
             </label>
-              <input type="file" id="inputId" style="display: none"  (change)="onSave($event)" accept="image/jpeg">
+            <input type="file" id="inputId" style="display: none"  (change)="onSave($event)" accept="image/*">
           </div>
 
           <div class="col-lg-7 col-md-12 col-sm-12 p-4">
@@ -27,18 +27,15 @@
 
       <div class="col-12 bg-light" style="border-radius: 8px; padding: 20px 0 20px 0">
         <ul style="list-style: none; display: flex; padding: 0; margin: 0">
-          <li class="col-10" style="padding: 0 0 0 15px"><input type="text" class="form-control" placeholder="Search">
-          </li>
-          <li class="col-1" style="padding: 0">
-            <button class="btn" style="color: white; background-color: 	#3C4C5C;"><i class="fas fa-search"></i></button>
+          <li class="col-11" style="padding: 0 0 0 15px"><input type="text" class="form-control" placeholder="Search" (input)="search($event)">
           </li>
         </ul>
       </div>
-      <div class="col-12 userlist" style="overflow-y: scroll; height: 500px;">
+      <div class="col-12 userlist" style="overflow-y: scroll; height: 500px" id="UsersScroll" #UsersScroll>
         <ul style="padding: 0 !important;">
           <li *ngFor="let user of Users;let ind = index" style="list-style: none">
             <button *ngIf="user._id!==User[0]._id;else non" class="col-md-12 btn"
-                    style=" margin-top: 20px; padding: 5px 30px 5px 60px; width: 100% ;text-align: center; background-color: 	#3C4C5C; color: white">
+                    style=" margin-top: 20px; padding: 5px 30px 5px 60px; width: 100% ;text-align: center; background-color: 	#3C4C5C; color: white" (click)="room(user._id)">
               <div *ngIf="user.online==false; else on">
                 <img src="http://localhost:3000/{{user.avatar}}" alt="" width="40" height="40"
                      style="border: solid red; border-radius: 50%; float: left " id="{{user._id}}">
@@ -77,16 +74,16 @@
     </div>
     <div class="col-8 p-4">
       <div class="container bg-light p-0" style="height: 580px;border-radius: 8px">
-        <ul style="overflow-y: scroll; height: 580px; " class="col-12 userlist" id="UserL" #MessagesScroll
-
-            scroll-directive>
+        <ul style="overflow-y: scroll; height: 580px; " class="col-12" id="MessagesScroll" #MessagesScroll scroll-directive>
           <img src="../../assets/img/loading.gif" alt="" width="50" height="50" class="loading" id="loading">
 
-          <li class="col-12 p-0 m-0" style="list-style: none" *ngFor="let item of Message">
-            <div class='container' #{{item.uniqueId}} *ngIf='User[0]._id===item.from; else hhh'
+          <li class="col-12 p-0 m-0" style="list-style: none" *ngFor="let item of Message; let i = index">
+            <div class='container' *ngIf='User[0]._id===item.from; else hhh'
                  id="aaa{{item.uniqueId}}">
               <div class="row"
                    style="display: flex; justify-content: flex-end; align-items: center; padding-right: 20px; margin: 20px 0; right: 0">
+                &nbsp;
+                <span (click)="del(i, item.msgId)"><button class="btn btn-danger" style="border-radius: 50%; padding: 0 4px 0 4px !important">x</button></span>
                 <span
                   style="background-color: #0593D1; color: white; border-radius: 8px; margin-right: 10px; padding: 5px">
                   <div style="float: right; overflow-wrap: break-word !important">{{item.message}}</div>
@@ -113,6 +110,8 @@
                   <br>
                   <div style="float: left"><small>{{item.data}}</small></div>
                 </span>
+                  &nbsp;
+                  <span (click)="del(i, item.msgId)"><button class="btn btn-danger" style="border-radius: 50%; padding: 0 4px 0 4px !important">x</button></span>
                 </div>
               </div>
             </ng-template>

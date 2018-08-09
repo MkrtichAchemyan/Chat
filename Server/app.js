@@ -84,12 +84,13 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', function () {
     app.post("/destroy", (req, res) => {
-      //  console.log(req.body.userId);
+      console.log(req.body.userId);
       var promise = new Promise((resolve, reject) => {
         Users.findByIdAndUpdate(req.body.userId, {online: false}, {new: true}, function (err, user) {
           //user.save();
           //  console.log(user, "falseeeeeeeeeee");
         });
+        console.log("999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999", req.body.userId)
         socket.broadcast.emit("setOffline", {userId: req.body.userId})
         resolve("done");
       })
@@ -118,15 +119,17 @@ io.on('connection', (socket) => {
               throw err;
             }
             var newData = {
+              msgId : msg._id,
               avatar: msg.from.avatar,
               from: msg.from._id,
               message: msg.message,
               data: formatAMPM(msg.time)
             }
+            console.log(newData)
             io.emit("newMessage", newData);
           })
       })
-    console.log(messages)
+    //console.log(messages)
   })
 })
 
@@ -150,9 +153,19 @@ function decode_base64(img) {
   return "images/users" + "/" + filename;
 }
 
+app.post("/searchUser", checkAuth, (req, res)=>{
+  Users.find({active: true, fullname:{ '$regex' : req.body.name, '$options' : 'i' }})
+    .exec()
+    .then(users=>{
+      res.status(200).json({
+        users:users
+      })
+    })
+});
+
 app.post("/register", (req, res) => {
-  if (req.body.img == "") {
-    var avatar = "images/chatIcon/userIcon.png"
+  if( req.body.img == "") {
+    let avatar = "images/chatIcon/userIcon.png"
   }
   else {
     if (decode_base64(req.body.img)) {
@@ -436,6 +449,7 @@ app.get("/chat", checkAuth, (req, res) => {
                     var tmpMsgs = msgs.map((msg) => {
 
                       return {
+                        msgId : msg._id,
                         uniqueId: msg.uniqueId,
                         from: msg.from._id,
                         data: formatAMPM(msg.time),
@@ -534,15 +548,15 @@ app.post("/changeAvatar", checkAuth, (req, res) => {
     })
   })
 })
-
-app.post("/searchUser", checkAuth, (req, res)=>{
-  Users.find({active: true, fullname:{ '$regex' : req.body.name, '$options' : 'i' }})
-    .exec()
-    .then(users=>{
-      res.status(200).json({
-        users:users
-      })
-    })
+app.post("/deleteMessage",function(req,res){
+  Messages.remove({ _id: req.body.id }, function(err) {
+    if(err){
+      res.send(err);
+    }
+    else{
+      res.send({data:"Record has been Deleted..!!"});
+    }
+  });
 })
 
 server.listen(8000, function () {
@@ -552,3 +566,4 @@ server.listen(8000, function () {
 app.listen(3000, function () {
   console.log("server run!!!");
 });
+

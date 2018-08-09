@@ -18,6 +18,10 @@ export class CommonChatService {
     return this.http.post('http://localhost:3000/changeAvatar', {"img":avatar}, {headers: this.h})
   }
 
+  searchUser(searchUser){
+    return this.http.post('http://localhost:3000/searchUser', {"name":searchUser}, {headers: this.h})
+  }
+
   sendMessage(data){
     return this.socket.emit("message",data)
   }
@@ -30,6 +34,7 @@ export class CommonChatService {
     });
     return observable
   }
+
   setOnline(){
     let observable = new Observable(observer => {
       this.socket.on('setOnline', (data) => {
@@ -47,6 +52,9 @@ export class CommonChatService {
     });
     return observable
   }
+  deleteMesage(id){
+    return this.http.post('http://localhost:3000/deleteMessage',{'id': id})
+  }
 
   userConnected(data){
     return this.socket.emit("userConnected", data)
@@ -63,7 +71,4 @@ export class CommonChatService {
   scrolling(){
     return this.http.get('http://localhost:3000/loadNextMessages')
   }
-
-
-
 }
